@@ -253,7 +253,7 @@ export function decodeRecords(value: unknown): DayRecords {
   }
 
   const payload = value as Record<string, unknown>;
-  const candidate = "records" in payload ? payload.records : payload;
+  const candidate = "records" in payload ? payload["records"] : payload;
   if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) {
     throw new Error("The backup's daily records aren't in the right format.");
   }
@@ -264,11 +264,11 @@ export function decodeRecords(value: unknown): DayRecords {
       throw new Error("The backup contains an invalid calendar date.");
     }
     const item = rawRecord as Record<string, unknown>;
-    if (typeof item.codeforces !== "boolean" || typeof item.github !== "boolean") {
+    if (typeof item["codeforces"] !== "boolean" || typeof item["github"] !== "boolean") {
       throw new Error("Each backup date needs both activity statuses.");
     }
-    if (item.codeforces || item.github) {
-      records[key] = { codeforces: item.codeforces, github: item.github };
+    if (item["codeforces"] || item["github"]) {
+      records[key] = { codeforces: item["codeforces"], github: item["github"] };
     }
   }
 
