@@ -17,13 +17,21 @@ export const RECORDS_STORAGE_KEY = "commit-conquer-records-v1";
 
 export const ACHIEVEMENT_DEFINITIONS = [
   { id: "first-commit", name: "First commit", description: "Make your first GitHub commit." },
-  { id: "first-problem", name: "First problem", description: "Solve your first Codeforces problem." },
+  {
+    id: "first-problem",
+    name: "First problem",
+    description: "Solve your first Codeforces problem.",
+  },
   { id: "streak-3", name: "Little & mighty", description: "Build a three-day overall streak." },
   { id: "streak-7", name: "One whole week", description: "Build a seven-day overall streak." },
   { id: "streak-14", name: "Fortnight flower", description: "Build a 14-day overall streak." },
   { id: "streak-30", name: "Monthly magic", description: "Build a 30-day overall streak." },
   { id: "perfect-week", name: "Perfect week", description: "Show up all seven days in a week." },
-  { id: "double-trouble", name: "Double trouble", description: "Do both activities seven days in a row." },
+  {
+    id: "double-trouble",
+    name: "Double trouble",
+    description: "Do both activities seven days in a row.",
+  },
 ] as const;
 
 export type AchievementId = (typeof ACHIEVEMENT_DEFINITIONS)[number]["id"];
@@ -110,7 +118,11 @@ export function toggleActivity(
 
 export function xpForDay(record: DayRecord | undefined): number {
   if (!record) return 0;
-  return Number(record.codeforces) * 10 + Number(record.github) * 10 + Number(isFullyComplete(record)) * 5;
+  return (
+    Number(record.codeforces) * 10 +
+    Number(record.github) * 10 +
+    Number(isFullyComplete(record)) * 5
+  );
 }
 
 export function getTotalXP(records: DayRecords): number {
@@ -135,16 +147,32 @@ export function getLevelProgress(totalXP: number): {
   };
 }
 
-function currentStreak(records: DayRecords, activity: (record: DayRecord | undefined) => boolean, todayKey: string) {
+function isDayActiveOrFrozen(
+  records: DayRecords,
+  key: string,
+  activity: (record: DayRecord | undefined) => boolean,
+  frozenDates?: Record<string, boolean>,
+): boolean {
+  if (activity(records[key])) return true;
+  if (frozenDates && frozenDates[key]) return true;
+  return false;
+}
+
+function currentStreak(
+  records: DayRecords,
+  activity: (record: DayRecord | undefined) => boolean,
+  todayKey: string,
+  frozenDates?: Record<string, boolean>,
+) {
   let anchor = todayKey;
-  if (!activity(records[anchor])) {
+  if (!isDayActiveOrFrozen(records, anchor, activity, frozenDates)) {
     const yesterday = shiftDateKey(anchor, -1);
-    if (!yesterday || !activity(records[yesterday])) return 0;
+    if (!yesterday || !isDayActiveOrFrozen(records, yesterday, activity, frozenDates)) return 0;
     anchor = yesterday;
   }
 
   let streak = 0;
-  while (activity(records[anchor])) {
+  while (isDayActiveOrFrozen(records, anchor, activity, frozenDates)) {
     streak += 1;
     const previous = shiftDateKey(anchor, -1);
     if (!previous) break;
@@ -154,8 +182,16 @@ function currentStreak(records: DayRecords, activity: (record: DayRecord | undef
   return streak;
 }
 
-function longestStreak(records: DayRecords, activity: (record: DayRecord | undefined) => boolean): number {
-  const days = Object.keys(records).filter((key) => activity(records[key])).sort();
+function longestStreak(
+  records: DayRecords,
+  activity: (record: DayRecord | undefined) => boolean,
+  frozenDates?: Record<string, boolean>,
+): number {
+  const allKeys = new Set([...Object.keys(records), ...Object.keys(frozenDates ?? {})]);
+  const days = Array.from(allKeys)
+    .filter((key) => isDayActiveOrFrozen(records, key, activity, frozenDates))
+    .sort();
+
   let longest = 0;
   let current = 0;
   let previous: string | null = null;
@@ -169,7 +205,11 @@ function longestStreak(records: DayRecords, activity: (record: DayRecord | undef
   return longest;
 }
 
-export function getStreakMetrics(records: DayRecords, today: Date) {
+export function getStreakMetrics(
+  records: DayRecords,
+  today: Date,
+  frozenDates?: Record<string, boolean>,
+) {
   const todayKey = formatDateKey(today);
   const overall = hasActivity;
   const codeforces = (record: DayRecord | undefined) => Boolean(record?.codeforces);
@@ -177,8 +217,8 @@ export function getStreakMetrics(records: DayRecords, today: Date) {
   const both = isFullyComplete;
 
   return {
-    currentOverall: currentStreak(records, overall, todayKey),
-    longestOverall: longestStreak(records, overall),
+    currentOverall: currentStreak(records, overall, todayKey, frozenDates),
+    longestOverall: longestStreak(records, overall, frozenDates),
     currentCodeforces: currentStreak(records, codeforces, todayKey),
     longestCodeforces: longestStreak(records, codeforces),
     currentGithub: currentStreak(records, github, todayKey),
@@ -187,6 +227,7 @@ export function getStreakMetrics(records: DayRecords, today: Date) {
     codeforcesDays: Object.values(records).filter(codeforces).length,
     githubDays: Object.values(records).filter(github).length,
     fullyCompleteDays: Object.values(records).filter(both).length,
+    frozenDaysCount: Object.keys(frozenDates ?? {}).length,
   };
 }
 
@@ -198,11 +239,12 @@ export function getMonthlyCompletion(
 ): { completedDays: number; eligibleDays: number; percentage: number } {
   const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
   const todayKey = formatDateKey(today);
-  const lastEligibleDay = year < today.getFullYear() || (year === today.getFullYear() && monthIndex < today.getMonth())
-    ? daysInMonth
-    : year === today.getFullYear() && monthIndex === today.getMonth()
-      ? today.getDate()
-      : 0;
+  const lastEligibleDay =
+    year < today.getFullYear() || (year === today.getFullYear() && monthIndex < today.getMonth())
+      ? daysInMonth
+      : year === today.getFullYear() && monthIndex === today.getMonth()
+        ? today.getDate()
+        : 0;
   let completedDays = 0;
 
   for (let day = 1; day <= lastEligibleDay; day += 1) {
@@ -228,8 +270,11 @@ function hasPerfectWeek(records: DayRecords): boolean {
   });
 }
 
-export function getAchievements(records: DayRecords): Achievement[] {
-  const metrics = getStreakMetrics(records, new Date());
+export function getAchievements(
+  records: DayRecords,
+  frozenDates?: Record<string, boolean>,
+): Achievement[] {
+  const metrics = getStreakMetrics(records, new Date(), frozenDates);
   const unlocked: Record<AchievementId, boolean> = {
     "first-commit": metrics.githubDays > 0,
     "first-problem": metrics.codeforcesDays > 0,
@@ -260,7 +305,12 @@ export function decodeRecords(value: unknown): DayRecords {
 
   const records: DayRecords = {};
   for (const [key, rawRecord] of Object.entries(candidate)) {
-    if (!dateFromKey(key) || !rawRecord || typeof rawRecord !== "object" || Array.isArray(rawRecord)) {
+    if (
+      !dateFromKey(key) ||
+      !rawRecord ||
+      typeof rawRecord !== "object" ||
+      Array.isArray(rawRecord)
+    ) {
       throw new Error("The backup contains an invalid calendar date.");
     }
     const item = rawRecord as Record<string, unknown>;
