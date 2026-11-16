@@ -2,16 +2,33 @@
 
 > *Your cozy coding garden, streak companion, and pixel achievement tracker.*
 
+<p align="center">
+  <img src="public/assets/aistudio/image_a7bfbdfb.png" width="340" alt="Pixel Garden Sanctuary" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="public/assets/aistudio/image_f6faf803.png" width="200" alt="Happy Pixel Cat Companion" />
+</p>
+
 ---
 
-### ✨ What is this?
-**Commit & Conquer** is a personal cozy pixel-art RPG and coding garden built for myself to cultivate daily coding consistency, nurture pixel plants, share strawberry cake with our virtual cat companion, and battle weekly bugs! 🐾✨
+### 🌱 Why I Made This
+I built **Commit & Conquer** entirely for myself to cultivate daily coding consistency without burnout. Instead of cold, mechanical trackers, I wanted a warm sanctuary where every solved problem and GitHub commit blooms a sunflower or tulip in a pixelated cottage garden, cheered on by an adorable pixel cat! 🐾✨
 
 ---
 
-### 🚀 Deploy on Vercel
+### 🐾 Cozy Features
 
-Deploy your own cozy coding garden in seconds with Vercel:
+| Feature | Description |
+| :--- | :--- |
+| **🌻 Garden Vital Stats & Streak Tracker** | Plant sunflowers (Codeforces) and tulips (GitHub) every day to grow your garden stage from a tiny seedling into a magical sanctuary. |
+| **🐱 Pixel Cat Companion** | Your furry coding buddy snoozes when you're away and wakes up purring with joy when you complete your daily tasks! Pet them and feed them strawberry cake 🍰. |
+| **⚔️ Weekly Boss Battles** | Defeat weekly coding bugs and bosses by maintaining your weekly consistency and earn mystery loot chests 🎁. |
+| **⏱️ 20-Minute Focus Timer** | Beat procrastination with gentle 20-minute micro-sprints and celebrate with pixel confetti. |
+| **🎁 XP Reward Shop** | Turn your hard-earned coding XP into real-life treats, snacks, or breaks that you genuinely enjoy. |
+| **❄️ Streak Freeze Shields** | Protect your precious streaks when life gets busy so you never lose your progress. |
+
+---
+
+### 🚀 Deploy on Vercel in Seconds
 
 1. Push this repository to your GitHub.
 2. Import the project into [Vercel](https://vercel.com).
@@ -33,4 +50,4 @@ npm install
 npm run dev
 ```
 
-*Planted with 💖 and ☕.*
+*Planted with 💖, ☕, and pixel magic.*
