@@ -823,6 +823,42 @@ function CodingGarden() {
           </div>
         </header>
 
+        {/* Garden Vital Stats Horizontal Bar */}
+        <div className="garden-vital-horizontal-bar">
+          <div className="flex items-center gap-2">
+            <span className="text-primary text-base">✿</span>
+            <span className="font-display text-xs font-bold text-foreground tracking-wide">
+              Garden Vital Stats
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3 text-xs font-semibold text-muted-foreground flex-wrap">
+            <span className="flex items-center gap-1.5">
+              <Flame className="w-3.5 h-3.5 text-amber-500" />
+              <span>{metrics.currentOverall} Day Streak</span>
+            </span>
+            <span aria-hidden="true" className="text-border">
+              ·
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span>🌻</span>
+              <span>{metrics.codeforcesDays} Sunflowers</span>
+            </span>
+            <span aria-hidden="true" className="text-border">
+              ·
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span>🌷</span>
+              <span>{metrics.githubDays} Tulips</span>
+            </span>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-2 text-xs italic text-primary font-medium">
+            <span>✿</span>
+            <span>"{MOTIVATIONS[motivationIndex]}"</span>
+          </div>
+        </div>
+
         {/* Level Up & EXP Hero Banner */}
         <section aria-label="Player Level & Title" className="level-hero-banner">
           <div className="level-hero-left">
