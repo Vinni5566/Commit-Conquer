@@ -1,24 +1,36 @@
-# Pixel Perfect Replica
+# 🌻 COMMIT & CONQUER 🌷
 
-Implement exactly the screenshot and nothing else
+> *Your cozy coding garden, streak companion, and pixel achievement tracker.*
 
-This project was built with [Lovable](https://lovable.dev).
+---
 
-## Build with Lovable
+### ✨ What is this?
+**Commit & Conquer** is a personal cozy pixel-art RPG and coding garden built for myself to cultivate daily coding consistency, nurture pixel plants, share strawberry cake with our virtual cat companion, and battle weekly bugs! 🐾✨
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/a09d1591-1f10-42a7-9812-8d31d43bcf23).
+---
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+### 🚀 Deploy on Vercel
 
-## Development
+Deploy your own cozy coding garden in seconds with Vercel:
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+1. Push this repository to your GitHub.
+2. Import the project into [Vercel](https://vercel.com).
+3. Vercel will automatically detect Vite and configure the build settings.
+4. Click **Deploy**! 🌻🚀
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+---
+
+### 💻 Local Development
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+
+# Install dependencies
+npm install
+
+# Start development server on port 3000
 npm run dev
 ```
+
+*Planted with 💖 and ☕.*
