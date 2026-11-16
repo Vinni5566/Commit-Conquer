@@ -28,15 +28,6 @@ I built **Commit & Conquer** entirely for myself to cultivate daily coding consi
 
 ---
 
-### 🚀 Deploy on Vercel in Seconds
-
-1. Push this repository to your GitHub.
-2. Import the project into [Vercel](https://vercel.com).
-3. Vercel will automatically detect Vite and configure the build settings.
-4. Click **Deploy**! 🌻🚀
-
----
-
 ### 💻 Local Development
 
 ```bash
