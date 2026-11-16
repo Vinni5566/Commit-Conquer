@@ -116,7 +116,7 @@ type ActiveTab = "tracker" | "garden" | "pet_room" | "shop" | "future_me" | "bad
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Commit & Conquer — Cozy Coding RPG & Garden" },
+      { title: "Commit & Conquer" },
       {
         name: "description",
         content:
